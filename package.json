@@ -1,0 +1,17 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "dashboard for viewers",
+  "main": "index.html",
+  "scripts": {
+    "c:sass": "node-sass scss/main.scss css/style.css -w"
+  },
+  "author": "Sarvjeet",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^5.0.0"
+  },
+  "dependencies": {
+    "jquery-circle-progress": "^1.2.2"
+  }
+}
