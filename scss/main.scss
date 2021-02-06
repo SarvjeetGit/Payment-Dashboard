@@ -65,6 +65,9 @@ li span {
 }
 
 @media all and (max-width: 1000px) {
+    .container {
+        width: 95%;
+    }
     li {
         padding: 5px;
         font-size: 75%;
