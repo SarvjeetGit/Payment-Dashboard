@@ -9,7 +9,7 @@ body {
 .row {
   height: 100%; }
 
-.col-4 {
+.col-md-4 {
   text-align: center;
   padding: 0px; }
 
@@ -38,3 +38,22 @@ body {
 
 .desc {
   opacity: 0.5; }
+
+li {
+  color: red;
+  display: inline-block;
+  list-style-type: none;
+  font-weight: 900;
+  padding: 1em;
+  text-transform: uppercase; }
+
+li span {
+  display: block; }
+
+.emoji {
+  padding: 0 0.25rem; }
+
+@media all and (max-width: 1000px) {
+  li {
+    padding: 5px;
+    font-size: 75%; } }

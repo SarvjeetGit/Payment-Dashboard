@@ -28,7 +28,7 @@
         <!-- total debit and credit display -->
         <section class="container">
             <div class="row">
-                <div class="col-4">
+                <div class="col-6 col-md-4">
                     <div class="card cardimp">
                         <div class="card-title">
                             <h2 class="debit">₹2000</h2>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6 col-md-4">
                     <div class="card cardimp">
                         <div class="card-title">
                             <h2 class="credit">₹900</h2>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4">
                     <div class="card desc-card">
                         <div
                             id="circle"
@@ -68,16 +68,15 @@
                     <div class="card">
                         <div class="card-title">
                             <strong>Payment Due in:</strong>
-                            <h1 style="color: red">15days</h1>
+                            <ul>
+                                <li><span id="days"></span>days</li>
+                                <li><span id="hours"></span>Hours</li>
+                                <li><span id="minutes"></span>Minutes</li>
+                                <li><span id="seconds"></span>Seconds</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="container">
-            <div style="text-align: center">
-                your payment is due in <strong>15</strong> days,kindly pay it
-                before <strong>15/03/2021</strong>
             </div>
         </section>
         <script
@@ -99,26 +98,52 @@
         <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
         <script>
-            // var cred = 900;
-            // var deb = 2000;
-            // val = cred / (cred + deb);
-            // $('#circle')
-            //     .circleProgress({
-            //         startAngle: (3 * 3.14) / 2,
-            //         value: val,
-            //         fill: {
-            //             color: 'green',
-            //         },
-            //         thickness: 20,
-            //     })
-            //     .circleProgress({
-            //         startAngle: (3 * 3.14) / 2,
-            //         value: 1 - val,
-            //         fill: {
-            //             color: 'red',
-            //         },
-            //         reverse: true,
-            //     });
+            (function () {
+                const second = 1000,
+                    minute = second * 60,
+                    hour = minute * 60,
+                    day = hour * 24;
+
+                let birthday = 'Mar 20, 2021 00:00:00',
+                    countDown = new Date(birthday).getTime(),
+                    x = setInterval(function () {
+                        let now = new Date().getTime(),
+                            distance = countDown - now;
+
+                        (document.getElementById('days').innerText = Math.floor(
+                            distance / day
+                        )),
+                            (document.getElementById(
+                                'hours'
+                            ).innerText = Math.floor((distance % day) / hour)),
+                            (document.getElementById(
+                                'minutes'
+                            ).innerText = Math.floor(
+                                (distance % hour) / minute
+                            )),
+                            (document.getElementById(
+                                'seconds'
+                            ).innerText = Math.floor(
+                                (distance % minute) / second
+                            ));
+
+                        //do something later when date is reached
+                        if (distance < 0) {
+                            let headline = document.getElementById('headline'),
+                                countdown = document.getElementById(
+                                    'countdown'
+                                ),
+                                content = document.getElementById('content');
+
+                            headline.innerText = "It's my birthday!";
+                            countdown.style.display = 'none';
+                            content.style.display = 'block';
+
+                            clearInterval(x);
+                        }
+                        //seconds
+                    }, 0);
+            })();
             window.onload = function () {
                 var totalVisitors = 2900;
                 var visitorsData = {
