@@ -16,10 +16,12 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="css/style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
         <title>Document</title>
     </head>
     <body>
-        <section class="container">
+        <section class="container" style="padding-bottom: 20px">
             <div>
                 Hello,<br />
                 <strong>Sarvjeet Kumar</strong>
@@ -28,7 +30,7 @@
         <!-- total debit and credit display -->
         <section class="container">
             <div class="row">
-                <div class="col-6 col-md-4">
+                <div class="col-6">
                     <div class="card cardimp">
                         <div class="card-title">
                             <h2 class="debit">₹2000</h2>
@@ -38,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-md-4">
+                <div class="col-6">
                     <div class="card cardimp">
                         <div class="card-title">
                             <h2 class="credit">₹900</h2>
@@ -48,35 +50,62 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
-                    <div class="card desc-card">
-                        <div
-                            id="circle"
-                            style="height: 150px; width: 100%"
-                        ></div>
-                    </div>
-                </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="card">
-                        View Payment Details
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card">
-                        <div class="card-title">
-                            <strong>Payment Due in:</strong>
-                            <ul>
-                                <li><span id="days"></span>days</li>
-                                <li><span id="hours"></span>Hours</li>
-                                <li><span id="minutes"></span>Minutes</li>
-                                <li><span id="seconds"></span>Seconds</li>
-                            </ul>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card-title"></div>
+                                    <div class="card-body">
+                                        <div id="chart">
+                                            <canvas
+                                                id="myChart"
+                                                width="50"
+                                                height="50"
+                                            ></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <span class="badge badge-danger"
+                                            >Due:2000₹</span
+                                        >
+                                        <span class="badge badge-success"
+                                            >Paid:900₹</span
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card-title payment">
+                                        <strong>Payment Due in:</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><span id="days"></span>days</li>
+                                            <li>
+                                                <span id="hours"></span>Hours
+                                            </li>
+                                            <li>
+                                                <span id="minutes"></span
+                                                >Minutes
+                                            </li>
+                                            <li>
+                                                <span id="seconds"></span
+                                                >Seconds
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row" style="padding-top: 20px">
+                <strong>
+                    Download Invoice <i class="fa fa-arrow-right"></i
+                ></strong>
             </div>
         </section>
         <script
@@ -144,59 +173,37 @@
                         //seconds
                     }, 0);
             })();
-            window.onload = function () {
-                var totalVisitors = 2900;
-                var visitorsData = {
-                    'New vs Returning Visitors': [
-                        {
-                            cursor: 'pointer',
-                            explodeOnClick: false,
-                            innerRadius: '75%',
-                            legendMarkerType: 'square',
-                            radius: '100%',
-                            showInLegend: true,
-                            startAngle: 270,
-                            type: 'doughnut',
-                            dataPoints: [
-                                {
-                                    y: 900,
-                                    name: 'Paid',
-                                    color: 'green',
-                                },
-                                {
-                                    y: 2000,
-                                    name: 'Remaining',
-                                    color: 'red',
-                                },
-                            ],
-                        },
-                    ],
-                };
-
-                var newVSReturningVisitorsOptions = {
-                    animationEnabled: true,
-                    theme: 'light2  ',
-                    legend: {
-                        fontFamily: 'calibri',
-                        fontSize: 14,
-                        itemTextFormatter: function (e) {
-                            return (
-                                e.dataPoint.name +
-                                ': ' +
-                                Math.round(
-                                    (e.dataPoint.y / totalVisitors) * 100
-                                ) +
-                                '%'
-                            );
-                        },
+            var paid = 900;
+            var due = 2000;
+            data = {
+                labels: [`paid`, `due`],
+                datasets: [
+                    {
+                        data: [900, 2000],
+                        backgroundColor: [
+                            'rgba(102, 255, 102, 0.7)',
+                            'rgba(255, 102, 102,0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(0, 179, 0, 1)',
+                            'rgba(255, 0, 0, 1)',
+                        ],
+                        hoverBackgroundColor: [
+                            'rgb(0, 179, 0, 1)',
+                            'rgba(255, 0, 0, 1)',
+                        ],
+                        borderWidth: '2',
+                        weight: '1',
                     },
-                    data: [],
-                };
-
-                newVSReturningVisitorsOptions.data =
-                    visitorsData['New vs Returning Visitors'];
-                $('#circle').CanvasJSChart(newVSReturningVisitorsOptions);
+                ],
+                // These labels appear in the legend and in the tooltips when hovering different arcs
             };
+            Chart.defaults.global.legend.display = false;
+            var ctx = document.getElementById('myChart');
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+            });
         </script>
     </body>
 </html>
